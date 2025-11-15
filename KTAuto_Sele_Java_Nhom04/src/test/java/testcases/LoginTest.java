@@ -42,10 +42,16 @@ public class LoginTest
 
         // Step 4. Click on "Login" button
         WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='account']"))); //MỚI SỬA XPATH
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='account']")));
 
-        String actualMsg = actualHomePage.getWelcomeMessageText().trim();
-        String expectedMsg = "Welcome " + Constant.USERNAME; //MỚI SỬA
+        String actualMsg = actualHomePage.getWelcomeUser().trim();
+        String expectedMsg = "Welcome " + Constant.USERNAME;
 
         Assert.assertEquals(actualMsg, expectedMsg, "Welcome message is not displayed correctly!");
     }
+    @AfterMethod
+    public void afterMethod() {
+        System.out.println("Post-condition");
+        Constant.WEBDRIVER.quit();
+    }
+}

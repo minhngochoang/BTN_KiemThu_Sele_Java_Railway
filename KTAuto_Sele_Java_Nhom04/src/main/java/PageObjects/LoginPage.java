@@ -1,14 +1,53 @@
 package PageObjects;
 
+import Common.Constant.Constant;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LoginPage extends GeneralPage {
-    private final By lblWelcomeUser = By.xpath("//div[@class='account']"); // Locator cho chữ Welcome [email]
 
-    private final By txtUsername = By.xpath("//input[@id ='username']");
-    private final By txtPassword = By.xpath("//input[@id ='password']");
+    private WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+
+    private final By txtUsername = By.xpath("//input[@id = 'username']");
+    private final By txtPassword = By.xpath("//input[@id = 'password']");
     private final By btnLogin = By.xpath("//input[contains(@value, 'Login')]");
-    private final By lblLoginErrorMsg = By.xpath("//p[@class='message error LoginForm']");
+    private final By lblWelcomeUser = By.xpath("//div[@class='account']"); //
+    //private final By lblLoginErrorMsg = By.xpath("//p[@class='message error LoginForm']");
 
-//input[contains@value, 'Login']"
+    // Element
+    public WebElement getTxtUsername() {
+        return Constant.WEBDRIVER.findElement(txtUsername);
+    }
+
+    public WebElement getTxtPassword() {
+        return Constant.WEBDRIVER.findElement(txtPassword);
+    }
+
+    public WebElement getBtnLogin() {
+        return Constant.WEBDRIVER.findElement(btnLogin);
+    }
+
+    public WebElement getLbWelcomeUser() {
+        return Constant.WEBDRIVER.findElement(lblWelcomeUser);
+    }
+
+    public HomePage login(String username, String password) {
+        getTxtUsername().clear();
+        getTxtUsername().sendKeys(username);
+
+        getTxtPassword().clear();
+        getTxtPassword().sendKeys(password);
+
+        //Cuộn lên
+        WebElement loginButton = getBtnLogin();
+        JavascriptExecutor js = (JavascriptExecutor) Constant.WEBDRIVER;
+        js.executeScript("arguments[0].click();", loginButton);
+
+        return new HomePage();
+    }
 }
