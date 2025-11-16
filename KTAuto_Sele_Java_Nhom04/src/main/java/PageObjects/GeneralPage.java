@@ -17,6 +17,9 @@ public class GeneralPage {
     private final By tabLogout = By.xpath("//div[@id='menu']//a[@href='/Account/Logout']");
     private final By lblWelcomeUser= By.xpath("//div[@class='account']");
 
+    private final By tabBookTicket = By.xpath("//div[@id='menu']//a[contains(@href, 'BookTicket')]");
+    private final By lblPageHeader = By.xpath("//div[@id='content']/h1"); //Tiêu đề trang Login
+
     // Elements
     protected WebElement getTabLogin(){
         // Đợi đến khi tab Login hiển thị
@@ -33,19 +36,29 @@ public class GeneralPage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(lblWelcomeUser));
     }
 
+    protected WebElement getTabBookTicket() {
+        return wait.until(ExpectedConditions.elementToBeClickable(tabBookTicket));
+    }
+
     // Methods
     public String getWelcomeUser(){
         return this.getLbWelcomeUser().getText();
-
     }
-
 
     public LoginPage gotoLoginPage(){
         getTabLogin().click();
-
         return new LoginPage();
     }
 
+    // TC04
+    public LoginPage gotoBookTicketPage_ExpectLoginPage() {
+        getTabBookTicket().click();
+        return new LoginPage();
+    }
+    public String getPageHeaderText() {
+        WebElement headerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(lblPageHeader));
+        return headerElement.getText();
+    }
 
 
 }

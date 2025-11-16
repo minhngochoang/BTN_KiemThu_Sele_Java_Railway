@@ -103,7 +103,23 @@ public class LoginTest
         Assert.assertEquals(actualMessage, expectedMessage, "Error message should be displayed");
     }
 
-    
+    @Test
+    public void TC04() {
+        System.out.println("TC04 - Login page displays when un-logged User clicks on Book ticket tab");
+
+        // Step 1. Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        // Step 2. Click on "Book ticket" tab
+        LoginPage loginPage = homePage.gotoBookTicketPage_ExpectLoginPage();
+
+        // Verify
+        String actualTitle = loginPage.getPageHeaderText();
+        String expectedTitle = "Login Page";
+
+        Assert.assertEquals(actualTitle, expectedTitle, "Login page was not displayed correctly");
+    }
     @AfterMethod
     public void afterMethod() {
         System.out.println("Post-condition");
