@@ -40,14 +40,38 @@ public class LoginTest
         // Step 3. Enter valid Email and Password
         HomePage actualHomePage = loginPage.login(Constant.USERNAME, Constant.PASSWORD);
 
-        // Step 4. Click on "Login" button
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='account']")));
-
+        // Verify
         String actualMsg = actualHomePage.getWelcomeUser().trim();
         String expectedMsg = "Welcome " + Constant.USERNAME;
 
         Assert.assertEquals(actualMsg, expectedMsg, "Welcome message is not displayed correctly!");
+    }
+
+    @Test
+    public void TC02()
+    {
+        System.out.println("TC02 - User can't login with blank Username textbox");
+
+        // Step 1. Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        // Step 2. Click on "Login" tab
+        LoginPage loginPage = homePage.gotoLoginPage();
+
+        // Step 3. User doesn't type any words into "Username" textbox but enter valid information into "Password" textbox
+        loginPage.getTxtUsername().sendKeys("");
+        loginPage.getTxtPassword().sendKeys(Constant.PASSWORD);
+
+        // Step 4. Click on "Login" button
+        WebElement loginButton = loginPage.getBtnLogin();
+        JavascriptExecutor js = (JavascriptExecutor) Constant.WEBDRIVER;
+        js.executeScript("arguments[0].click();", loginButton);
+
+        // Verify
+        String actualMessage =  loginPage.getLoginErrorMsg();
+        String expectedMessage = "There was a problem with your login and/or errors exist in your form.";
+        Assert.assertEquals(actualMessage, expectedMessage, "Error message should be displayed");
     }
     @AfterMethod
     public void afterMethod() {

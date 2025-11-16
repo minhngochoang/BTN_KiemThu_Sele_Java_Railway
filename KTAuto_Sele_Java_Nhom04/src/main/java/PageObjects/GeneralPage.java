@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class GeneralPage {
+    private WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
 
     // Locators
     private final By tabLogin = By.xpath("//div[@id='menu']//a[contains(@href, '/Account/Login')]");
@@ -18,29 +19,33 @@ public class GeneralPage {
 
     // Elements
     protected WebElement getTabLogin(){
-        return Constant.WEBDRIVER.findElement(tabLogin);
+        // Đợi đến khi tab Login hiển thị
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(tabLogin));
     }
 
     protected WebElement getTabLogout(){
-        return Constant.WEBDRIVER.findElement(tabLogout);
+        // Đợi đến khi tab Logout hiển thị
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(tabLogout));
     }
 
     protected WebElement getLbWelcomeUser(){
-        return Constant.WEBDRIVER.findElement(lblWelcomeUser);
+       // Đợi text hiển thị
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(lblWelcomeUser));
     }
 
     // Methods
     public String getWelcomeUser(){
         return this.getLbWelcomeUser().getText();
+
     }
 
-    public LoginPage gotoLoginPage(){
-        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(tabLogin));
 
+    public LoginPage gotoLoginPage(){
         getTabLogin().click();
 
         return new LoginPage();
     }
+
+
 
 }
