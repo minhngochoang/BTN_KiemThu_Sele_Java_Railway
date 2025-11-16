@@ -73,6 +73,37 @@ public class LoginTest
         String expectedMessage = "There was a problem with your login and/or errors exist in your form.";
         Assert.assertEquals(actualMessage, expectedMessage, "Error message should be displayed");
     }
+
+
+    @Test
+    public void TC03() {
+
+        System.out.println("TC03 - User cannot log into Railway with invalid password");
+
+        //Step 1. Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        // Step 2. Click on "Login" tab
+        LoginPage loginPage = homePage.gotoLoginPage();
+
+        // Step 3. Enter valid Email and invalid Password
+        loginPage.getTxtUsername().sendKeys(Constant.USERNAME);
+        loginPage.getTxtPassword().sendKeys("invalid_password");
+
+
+        // Step 4. Click on "Login" button
+        WebElement loginButton = loginPage.getBtnLogin();
+        JavascriptExecutor js = (JavascriptExecutor) Constant.WEBDRIVER;
+        js.executeScript("arguments[0].click();", loginButton);
+
+        // Verify
+        String actualMessage =  loginPage.getLoginErrorMsg();
+        String expectedMessage = "There was a problem with your login and/or errors exist in your form.";
+        Assert.assertEquals(actualMessage, expectedMessage, "Error message should be displayed");
+    }
+
+    
     @AfterMethod
     public void afterMethod() {
         System.out.println("Post-condition");
