@@ -1,15 +1,21 @@
 package testcases;
 
 import Common.Constant.Constant;
+import PageObjects.ChangePasswordPage;
 import PageObjects.HomePage;
 import PageObjects.LoginPage;
+import PageObjects.MyTicketPage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
 
 public class LoginTest
 {
@@ -140,6 +146,37 @@ public class LoginTest
 
         Assert.assertEquals(actualMessage, expectedMessage, "Error message content is not correct after 4 attempts!");
     }
+
+    @Test
+    public void TC06() {
+        System.out.println("TC06 - Additional pages display once user logged in");
+
+        // Step 1. Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        // Step 2. Click on "Login" tab
+        LoginPage loginPage = homePage.gotoLoginPage();
+
+        // Step 3. Login with valid account
+        HomePage actualHomePage = loginPage.login(Constant.USERNAME, Constant.PASSWORD);
+
+        // Verify 1: "My ticket", "Change password" and "Logout" tabs are displayed
+        Assert.assertTrue(actualHomePage.isMyTicketTabDisplayed(), "My Ticket tab is not displayed.");
+        Assert.assertTrue(actualHomePage.isChangePasswordTabDisplayed(), "Change Password tab is not displayed.");
+        Assert.assertTrue(actualHomePage.isLogoutTabDisplayed(), "Logout tab is n displayed.");
+
+        // Verify 2: Click "My ticket" tab, user will be directed to My Ticket page
+        MyTicketPage myTicketPage = actualHomePage.gotoMyTicketPage();
+
+        Assert.assertTrue(myTicketPage.isPageTitleDisplayed(), "My Ticket page did not load.");
+
+        // Verify 3: Click "Change password" tab, user will be directed to Change password page
+        ChangePasswordPage changePasswordPage = myTicketPage.gotoChangePasswordPage();
+
+        Assert.assertTrue(changePasswordPage.isPageTitleDisplayed(), "Change Password page did not load.");
+    }
+
 
     @AfterMethod
     public void afterMethod() {

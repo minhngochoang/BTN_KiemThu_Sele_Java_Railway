@@ -19,15 +19,18 @@ public class GeneralPage {
     private final By tabBookTicket = By.xpath("//div[@id='menu']//a[contains(@href, 'BookTicket')]");
     private final By lblPageHeader = By.xpath("//div[@id='content']/h1"); //Tiêu đề trang Login
 
+    private final By tabMyTicket = By.xpath("//div[@id='menu']//a[contains(@href, '/ManageTicket')]");
+    private final By tabChangePassword = By.xpath("//div[@id='menu']//a[contains(@href, '/ChangePassword')]");
+
+
     // Elements
     protected WebElement getTabLogin(){
         // Đợi đến khi tab Login hiển thị
         return wait.until(ExpectedConditions.visibilityOfElementLocated(tabLogin));
     }
 
-    protected WebElement getTabLogout(){
-        // Đợi đến khi tab Logout hiển thị
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(tabLogout));
+    protected WebElement getTabLogout() {
+        return wait.until(ExpectedConditions.elementToBeClickable(tabLogout));
     }
 
     protected WebElement getLbWelcomeUser(){
@@ -38,6 +41,15 @@ public class GeneralPage {
     protected WebElement getTabBookTicket() {
         return wait.until(ExpectedConditions.elementToBeClickable(tabBookTicket));
     }
+
+    protected WebElement getTabMyTicket() {
+        return wait.until(ExpectedConditions.elementToBeClickable(tabMyTicket));
+    }
+
+    protected WebElement getTabChangePassword() {
+        return wait.until(ExpectedConditions.elementToBeClickable(tabChangePassword));
+    }
+
 
     // Methods
     public String getWelcomeUser(){
@@ -59,5 +71,36 @@ public class GeneralPage {
         return headerElement.getText();
     }
 
+    //TC06
+    // Boolean
+    private boolean isTabDisplayed(By locator) {
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isMyTicketTabDisplayed() {
+        return isTabDisplayed(tabMyTicket);
+    }
+
+    public boolean isChangePasswordTabDisplayed() {
+        return isTabDisplayed(tabChangePassword);
+    }
+
+    public boolean isLogoutTabDisplayed() {
+        return isTabDisplayed(tabLogout);
+    }
+
+    public MyTicketPage gotoMyTicketPage() {
+        getTabMyTicket().click();
+        return new MyTicketPage();
+    }
+
+    public ChangePasswordPage gotoChangePasswordPage() {
+        getTabChangePassword().click();
+        return new ChangePasswordPage();
+    }
 
 }
