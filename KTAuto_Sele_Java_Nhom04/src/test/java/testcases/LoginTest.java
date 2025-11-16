@@ -1,19 +1,15 @@
 package testcases;
+
 import Common.Constant.Constant;
 import PageObjects.HomePage;
 import PageObjects.LoginPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.time.Duration;
 
 public class LoginTest
 {
@@ -74,7 +70,6 @@ public class LoginTest
         Assert.assertEquals(actualMessage, expectedMessage, "Error message should be displayed");
     }
 
-
     @Test
     public void TC03() {
 
@@ -120,6 +115,32 @@ public class LoginTest
 
         Assert.assertEquals(actualTitle, expectedTitle, "Login page was not displayed correctly");
     }
+
+    @Test
+    public void TC05() {
+        System.out.println("TC05 - System shows message when user enters wrong password several times");
+
+        // Step 1. Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        // Step 2. Click on "Login" tab
+        LoginPage loginPage = homePage.gotoLoginPage();
+
+        // Step 3, 4, 5: Lặp lại chính xác 4 LẦN
+        for (int i = 1; i <= 4; i++) {
+            System.out.println("Đang nhap sai lan: " + i);
+
+            loginPage.attemptLogin(Constant.USERNAME, "wrongPassword");
+        }
+
+        // Vefiry
+        String actualMessage = loginPage.getLoginErrorText();
+        String expectedMessage = "You have used 4 out of 5 login attempts. After all 5 have been used, you will be unable to login for 15 minutes.";
+
+        Assert.assertEquals(actualMessage, expectedMessage, "Error message content is not correct after 4 attempts!");
+    }
+
     @AfterMethod
     public void afterMethod() {
         System.out.println("Post-condition");

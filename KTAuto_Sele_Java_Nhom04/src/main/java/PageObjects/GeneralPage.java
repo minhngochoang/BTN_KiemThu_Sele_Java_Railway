@@ -2,7 +2,6 @@ package PageObjects;
 
 import Common.Constant.Constant;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -50,7 +49,7 @@ public class GeneralPage {
         return new LoginPage();
     }
 
-    // TC04
+    // Run TC04
     public LoginPage gotoBookTicketPage_ExpectLoginPage() {
         getTabBookTicket().click();
         return new LoginPage();

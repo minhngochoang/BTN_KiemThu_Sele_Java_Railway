@@ -20,26 +20,46 @@ public class LoginPage extends GeneralPage {
 
     // Element
     public WebElement getTxtUsername() {
-        return Constant.WEBDRIVER.findElement(txtUsername);
+        return wait.until(ExpectedConditions.elementToBeClickable(txtUsername));
     }
-
     public WebElement getTxtPassword() {
-        return Constant.WEBDRIVER.findElement(txtPassword);
+        return wait.until(ExpectedConditions.elementToBeClickable(txtPassword));
     }
-
     public WebElement getBtnLogin() {
         return Constant.WEBDRIVER.findElement(btnLogin);
     }
-
     public WebElement getLbLoginErrorMsg() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(lblLoginErrorMsg));
     }
 
-
+    //Methods
     public String getLoginErrorMsg(){
         return this.getLbLoginErrorMsg().getText();
     }
 
+    //Run TC05
+    public void attemptLogin(String username, String password) {
+        getTxtUsername().clear();
+        getTxtUsername().sendKeys(username);
+        getTxtPassword().clear();
+        getTxtPassword().sendKeys(password);
+
+        WebElement loginButton = getBtnLogin();
+        JavascriptExecutor js = (JavascriptExecutor) Constant.WEBDRIVER;
+        js.executeScript("arguments[0].click();", loginButton);
+
+        WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(lblLoginErrorMsg));
+    }
+    public String getLoginErrorText() {
+        try {
+            WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
+            WebElement lblError = wait.until(ExpectedConditions.visibilityOfElementLocated(lblLoginErrorMsg));
+            return lblError.getText().trim();
+        } catch (Exception e) {
+            return "Khong tim thay thong bao loi.";
+        }
+    }
     public HomePage login(String username, String password) {
         getTxtUsername().clear();
         getTxtUsername().sendKeys(username);
