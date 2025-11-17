@@ -3,7 +3,9 @@ package testcases;
 import Common.Constant.Constant;
 import PageObjects.HomePage;
 import PageObjects.RegisterPage;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -32,14 +34,47 @@ public class RegisterTest {
         String confirmPassword = "1234@abc"; // Khong khop
         String pid = "123456789";
 
-        // 4. Nhập thông tin và click Register
         registerPage.register(email, password, confirmPassword, pid);
 
-        // 5. Lấy thông báo lỗi chung
+        // Verify
         String actualErrorMsg = registerPage.getRegisterErrorMessage();
         String expectedErrorMsg = "There're errors in the form. Please correct the errors and try again.";
+
+        Assert.assertEquals(actualErrorMsg, expectedErrorMsg, "Error message is not displayed correctly!");
     }
 
+    /*@Test
+    public void TC11() throws InterruptedException {
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        RegisterPage registerPage = homePage.gotoRegisterPage();
+        Thread.sleep(3000);
+
+        String email = "ngan03305@gmail.com";
+        registerPage.register(email, "", "", "");
+
+        // Verify: General error message
+        WebElement generalError = registerPage.getGeneralErrorMessage();
+        Assert.assertTrue(generalError.isDisplayed(), "General error message not displayed");
+        Assert.assertEquals(generalError.getText(),
+                "There're errors in the form. Please correct the errors and try again.",
+                "General error message text is incorrect");
+
+        // Verify: Password error message
+        WebElement passwordError = registerPage.getPasswordErrorMessage();
+        Assert.assertTrue(passwordError.isDisplayed(), "Password error message not displayed");
+        Assert.assertEquals(passwordError.getText(), "Invalid password length",
+                "Password error message is incorrect");
+
+        // Verify: PID error message
+        WebElement pidError = registerPage.getPIDErrorMessage();
+        Assert.assertTrue(pidError.isDisplayed(), "PID error message not displayed");
+        Assert.assertEquals(pidError.getText(), "Invalid ID length",
+                "PID error message is incorrect");
+
+        System.out.println("TC11 Passed");
+    }*/
     
     @AfterMethod
     public void afterMethod() {
