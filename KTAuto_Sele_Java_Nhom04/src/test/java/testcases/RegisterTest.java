@@ -1,5 +1,6 @@
 package testcases;
 
+import Common.Common.TestHelper;
 import Common.Constant.Constant;
 import PageObjects.HomePage;
 import PageObjects.RegisterPage;
@@ -43,38 +44,39 @@ public class RegisterTest {
         Assert.assertEquals(actualErrorMsg, expectedErrorMsg, "Error message is not displayed correctly!");
     }
 
-    /*@Test
-    public void TC11() throws InterruptedException {
+    @Test
+    public void TC11() {
+
+        System.out.println("TC11 - User can't create account while password and PID fields are empty");
+
+        String email = TestHelper.generateUniqueEmail();
+        String emptyPassword = "";
+        String emptyPid = "";
+
+        // Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
         homePage.open();
 
+        // Step 2. Click on "Register" tab
         RegisterPage registerPage = homePage.gotoRegisterPage();
-        Thread.sleep(3000);
 
-        String email = "ngan03305@gmail.com";
-        registerPage.register(email, "", "", "");
+        // Step 3. Enter valid email address and leave other fields empty
+        registerPage.register(email, emptyPassword, emptyPassword, emptyPid);
 
-        // Verify: General error message
-        WebElement generalError = registerPage.getGeneralErrorMessage();
-        Assert.assertTrue(generalError.isDisplayed(), "General error message not displayed");
-        Assert.assertEquals(generalError.getText(),
-                "There're errors in the form. Please correct the errors and try again.",
-                "General error message text is incorrect");
+        // Verify
+        String expectedGeneralMsg = "There're errors in the form. Please correct the errors and try again.";
+        String expectedPassMsg = "Invalid password length";
+        String expectedPidMsg = "Invalid ID length";
 
-        // Verify: Password error message
-        WebElement passwordError = registerPage.getPasswordErrorMessage();
-        Assert.assertTrue(passwordError.isDisplayed(), "Password error message not displayed");
-        Assert.assertEquals(passwordError.getText(), "Invalid password length",
-                "Password error message is incorrect");
+        String actualGeneralMsg = registerPage.getRegisterErrorMessage();
+        Assert.assertEquals(actualGeneralMsg, expectedGeneralMsg, "General error message is incorrect.");
 
-        // Verify: PID error message
-        WebElement pidError = registerPage.getPIDErrorMessage();
-        Assert.assertTrue(pidError.isDisplayed(), "PID error message not displayed");
-        Assert.assertEquals(pidError.getText(), "Invalid ID length",
-                "PID error message is incorrect");
+        String actualPassMsg = registerPage.getPasswordErrorText();
+        Assert.assertEquals(actualPassMsg, expectedPassMsg, "Password length error is incorrect.");
 
-        System.out.println("TC11 Passed");
-    }*/
+        String actualPidMsg = registerPage.getPidErrorText();
+        Assert.assertEquals(actualPidMsg, expectedPidMsg, "PID length error is incorrect.");
+    }
     
     @AfterMethod
     public void afterMethod() {

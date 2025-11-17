@@ -21,6 +21,8 @@ public class RegisterPage extends GeneralPage{
     private final By btnRegister = By.xpath("//input[@type='submit' and @value='Register']");
     private final By lblErrorMessage = By.xpath("//div[@id='content']/p[@class='message error']");
 
+    private final By lblPasswordError = By.xpath("//li[@class='password']//label[@class='validation-error']");
+    private final By lblPidError = By.xpath("//li[@class='pid-number']//label[@class='validation-error']");
     // Elements
     public WebElement getTxtPassword() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(txtPassword));
@@ -53,5 +55,14 @@ public class RegisterPage extends GeneralPage{
 
     public String getRegisterErrorMessage() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(lblErrorMessage)).getText();
+    }
+
+    // TC11
+    public String getPasswordErrorText() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(lblPasswordError)).getText();
+    }
+
+    public String getPidErrorText() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(lblPidError)).getText();
     }
 }
