@@ -22,6 +22,7 @@ public class GeneralPage {
     private final By tabMyTicket = By.xpath("//div[@id='menu']//a[contains(@href, '/ManageTicket')]");
     private final By tabChangePassword = By.xpath("//div[@id='menu']//a[contains(@href, '/ChangePassword')]");
 
+    private final By tabRegister = By.xpath("//div[@id='menu']//a[contains(@href, '/Account/Register')]");
 
     // Elements
     protected WebElement getTabLogin(){
@@ -49,7 +50,10 @@ public class GeneralPage {
     protected WebElement getTabChangePassword() {
         return wait.until(ExpectedConditions.elementToBeClickable(tabChangePassword));
     }
-
+    // TC10
+    protected WebElement getTabRegister() {
+        return wait.until(ExpectedConditions.elementToBeClickable(tabRegister));
+    }
 
     // Methods
     public String getWelcomeUser(){
@@ -61,7 +65,7 @@ public class GeneralPage {
         return new LoginPage();
     }
 
-    // Run TC04
+    // TC04
     public LoginPage gotoBookTicketPage_ExpectLoginPage() {
         getTabBookTicket().click();
         return new LoginPage();
@@ -101,6 +105,11 @@ public class GeneralPage {
     public ChangePasswordPage gotoChangePasswordPage() {
         getTabChangePassword().click();
         return new ChangePasswordPage();
+    }
+    //TC10
+    public RegisterPage gotoRegisterPage() {
+        getTabRegister().click();
+        return new RegisterPage();
     }
 
 }
