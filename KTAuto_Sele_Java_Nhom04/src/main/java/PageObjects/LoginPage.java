@@ -18,6 +18,8 @@ public class LoginPage extends GeneralPage {
     private final By btnLogin = By.xpath("//input[contains(@value, 'Login')]");
     private final By lblLoginErrorMsg = By.xpath("//p[@class='message error LoginForm']");
 
+    private final By lnkForgotPassword = By.xpath("//a[contains(@href, 'ForgotPassword')]");
+
     // Element
     public WebElement getTxtUsername() {
         return wait.until(ExpectedConditions.elementToBeClickable(txtUsername));
@@ -60,6 +62,7 @@ public class LoginPage extends GeneralPage {
             return "Khong tim thay thong bao loi.";
         }
     }
+
     public HomePage login(String username, String password) {
         getTxtUsername().clear();
         getTxtUsername().sendKeys(username);
@@ -73,5 +76,11 @@ public class LoginPage extends GeneralPage {
         js.executeScript("arguments[0].click();", loginButton);
 
         return new HomePage();
+    }
+
+    // TC 12
+    public ForgotPasswordPage gotoForgotPasswordPage() {
+        wait.until(ExpectedConditions.elementToBeClickable(lnkForgotPassword)).click();
+        return new ForgotPasswordPage();
     }
 }
