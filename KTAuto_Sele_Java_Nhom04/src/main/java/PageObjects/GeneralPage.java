@@ -24,9 +24,10 @@ public class GeneralPage {
 
     private final By tabRegister = By.xpath("//div[@id='menu']//a[contains(@href, '/Account/Register')]");
 
+    private final By tabTimetable = By.xpath("//div[@id='menu']//a[contains(@href, 'TrainTimeListPage')]");
+
     // Elements
     protected WebElement getTabLogin(){
-        // Đợi đến khi tab Login hiển thị
         return wait.until(ExpectedConditions.visibilityOfElementLocated(tabLogin));
     }
 
@@ -35,7 +36,6 @@ public class GeneralPage {
     }
 
     protected WebElement getLbWelcomeUser(){
-       // Đợi text hiển thị
         return wait.until(ExpectedConditions.visibilityOfElementLocated(lblWelcomeUser));
     }
 
@@ -53,6 +53,10 @@ public class GeneralPage {
     // TC10
     protected WebElement getTabRegister() {
         return wait.until(ExpectedConditions.elementToBeClickable(tabRegister));
+    }
+
+    protected WebElement getTabTimetable() {
+        return wait.until(ExpectedConditions.elementToBeClickable(tabTimetable));
     }
 
     // Methods
@@ -106,6 +110,7 @@ public class GeneralPage {
         getTabChangePassword().click();
         return new ChangePasswordPage();
     }
+
     //TC10
     public RegisterPage gotoRegisterPage() {
         getTabRegister().click();
@@ -118,5 +123,11 @@ public class GeneralPage {
         return new BookTicketPage();
     }
 
+    // TC15
+    public TimetablePage gotoTimetablePage() {
+        getTabTimetable().click();
+        return new TimetablePage();
+
+    }
 
 }

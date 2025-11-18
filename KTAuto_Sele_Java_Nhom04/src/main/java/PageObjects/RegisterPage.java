@@ -19,10 +19,12 @@ public class RegisterPage extends GeneralPage{
     private final By txtConfirmPassword = By.xpath("//input[@id='confirmPassword']");
     private final By txtPid = By.xpath("//input[@id='pid']");
     private final By btnRegister = By.xpath("//input[@type='submit' and @value='Register']");
-    private final By lblErrorMessage = By.xpath("//div[@id='content']/p[@class='message error']");
+    private final By lblSuccessMessage = By.xpath("//div[@id='content']/p"); //
 
+    private final By lblErrorMessage = By.xpath("//div[@id='content']/p[@class='message error LoginForm']");
     private final By lblPasswordError = By.xpath("//li[@class='password']//label[@class='validation-error']");
     private final By lblPidError = By.xpath("//li[@class='pid-number']//label[@class='validation-error']");
+
     // Elements
     public WebElement getTxtPassword() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(txtPassword));
@@ -42,17 +44,24 @@ public class RegisterPage extends GeneralPage{
 
     // Methods
     public void register(String email, String password, String confirmPassword, String pid) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(txtEmail)).sendKeys(email); // Wait 1 cái là đủ
 
+        wait.until(ExpectedConditions.visibilityOfElementLocated(txtEmail)).sendKeys(email);
         getTxtPassword().sendKeys(password);
         getTxtConfirmPassword().sendKeys(confirmPassword);
         getTxtPid().sendKeys(pid);
 
         WebElement registerBtn = getBtnRegister();
+
         JavascriptExecutor js = (JavascriptExecutor) Constant.WEBDRIVER;
         js.executeScript("arguments[0].click();", registerBtn);
     }
 
+    // TC07
+    public String getSuccessMessage() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(lblSuccessMessage)).getText();
+    }
+
+    // TC08
     public String getRegisterErrorMessage() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(lblErrorMessage)).getText();
     }

@@ -25,7 +25,7 @@ public class BookTicketPage extends GeneralPage{
     private final By btnBookTicket = By.xpath("//input[@type='submit' and @value='Book ticket']");
     private final By lblSuccessHeader = By.xpath("//div[@id='content']/h1");
 
-
+    private final By tabTimetable  = By.xpath("//div[@id='menu']//span[text()='Timetable']");
 
     //Methods
     // TC14
@@ -50,25 +50,28 @@ public class BookTicketPage extends GeneralPage{
         return Constant.WEBDRIVER.findElement(lblSuccessHeader).getText();
     }
 
+    // TC14
     public String getTicketDetails(String columnName) {
-        int index = 0;
 
-        if (columnName.equals("Depart Date")) {
-            index = 1;
-        }else if (columnName.equals("Depart Station")) {
-            index = 2;
-        }else if (columnName.equals("Arrive Station")) {
-            index = 3;
-        }else if (columnName.equals("Seat Type")) {
-            index = 4;
-        }else if (columnName.equals("Amount")) {
-            index = 5;
-        }
-
-        String xpath = String.format("//table[@class='MyTable']//tr[last()]/td[%d]", index);
+        String xpath = String.format(
+                "//table//tr[last()]/td[count(//table//th[normalize-space(text())='%s']/preceding-sibling::th)+1]",
+                columnName
+        );
 
         return Constant.WEBDRIVER.findElement(By.xpath(xpath)).getText().trim();
     }
+
+    // TC15
+     public String getSelectedDropdownValue(String nameAttribute) {
+
+        String dynamicXpath = String.format("//select[@name='%s']", nameAttribute);
+
+        WebElement element = Constant.WEBDRIVER.findElement(By.xpath(dynamicXpath));
+        Select select = new Select(element);
+
+        return select.getFirstSelectedOption().getText();
+    }
+
 }
 
 

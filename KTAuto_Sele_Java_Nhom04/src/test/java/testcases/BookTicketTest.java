@@ -4,6 +4,8 @@ import Common.Constant.Constant;
 import PageObjects.BookTicketPage;
 import PageObjects.HomePage;
 import PageObjects.LoginPage;
+import PageObjects.TimetablePage;
+import PageObjects.TimetablePage;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -20,10 +22,8 @@ public class BookTicketTest {
         Constant.WEBDRIVER.manage().window().maximize();
     }
 
-    @Test
+    @Test (description = "TC14 - User can book 1 ticket at a time")
     public void TC14() {
-
-        System.out.println("TC14 - User can book 1 ticket at a time");
 
         // Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
@@ -38,7 +38,6 @@ public class BookTicketTest {
 
         // Step 4. Select a "Depart date" from the list
         String departDate = Common.Common.DateUtils.getFutureDateForRailway(5);
-        System.out.println("Ngày test: " + departDate);
 
         // Step 5. Select "Sài Gòn" for "Depart from" and "Nha Trang" for "Arrive at".
         String departFrom = "Sài Gòn";
@@ -60,12 +59,39 @@ public class BookTicketTest {
         // Verify
         SoftAssert softAssert = new SoftAssert();
 
-        softAssert.assertEquals(bookTicketPage.getTicketDetails("Depart Date: "), departDate, "Depart Date mismatch!");
-        softAssert.assertEquals(bookTicketPage.getTicketDetails("Depart Station: "), departFrom, "Depart Station mismatch!");
-        softAssert.assertEquals(bookTicketPage.getTicketDetails("Arrive Station: "), arriveAt, "Arrive Station mismatch!");
-        softAssert.assertEquals(bookTicketPage.getTicketDetails("Seat Type: "), seatType, "Seat Type mismatch!");
-        softAssert.assertEquals(bookTicketPage.getTicketDetails("Amount: "), ticketAmount, "Ticket Amount mismatch!");
+        softAssert.assertEquals(bookTicketPage.getTicketDetails("Depart Station"), departFrom, "Depart Station mismatch!");
+        softAssert.assertEquals(bookTicketPage.getTicketDetails("Arrive Station"), arriveAt, "Arrive Station mismatch!");
+        softAssert.assertEquals(bookTicketPage.getTicketDetails("Seat Type"), seatType, "Seat Type mismatch!");
+        softAssert.assertEquals(bookTicketPage.getTicketDetails("Depart Date"), departDate, "Depart Date mismatch!");
+        softAssert.assertEquals(bookTicketPage.getTicketDetails("Amount"), ticketAmount, "Ticket Amount mismatch!");
+
         softAssert.assertAll();
+    }
+
+
+    @Test (description = "TC15 - User can open Book ticket page by clicking on Book ticket link in Train timetable page")
+    public void TC15() {
+
+        // Step 1. Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        // Step 2. Login with a valid account
+        LoginPage loginPage = homePage.gotoLoginPage();
+        homePage = loginPage.login(Constant.USERNAME, Constant.PASSWORD);
+
+        // Step 3. Click on "Timetable" tab
+        TimetablePage timetablePage = homePage.gotoTimetablePage();
+
+        // Step 4. Click on "book ticket" link of the route from "Huế" to "Sài Gòn"
+        BookTicketPage bookTicketPage = timetablePage.clickBookTicketForRoute("Huế", "Sài Gòn");
+
+        // Verify
+        String actualDepart = bookTicketPage.getSelectedDropdownValue("DepartStation");
+        String actualArrive = bookTicketPage.getSelectedDropdownValue("ArriveStation");
+
+        Assert.assertEquals(actualDepart, "Huế", "Lỗi: Ga đi không được chọn đúng.");
+        Assert.assertEquals(actualArrive, "Sài Gòn", "Lỗi: Ga đến không được chọn đúng.");
     }
 
     @AfterMethod

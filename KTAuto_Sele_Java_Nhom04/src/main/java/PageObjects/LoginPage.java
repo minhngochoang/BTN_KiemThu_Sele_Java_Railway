@@ -39,7 +39,7 @@ public class LoginPage extends GeneralPage {
         return this.getLbLoginErrorMsg().getText();
     }
 
-    //Run TC05
+    //TC05
     public void attemptLogin(String username, String password) {
         getTxtUsername().clear();
         getTxtUsername().sendKeys(username);

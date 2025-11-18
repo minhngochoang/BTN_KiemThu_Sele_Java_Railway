@@ -20,10 +20,8 @@ public class ForgotPasswordTest {
         Constant.WEBDRIVER.manage().window().maximize();
     }
 
-    @Test
+    @Test (description = "TC12 - Errors display when password reset token is blank")
     public void TC12() {
-
-        System.out.println("TC12 - Errors display when password reset token is blank");
 
         // Step 1. Navigate to QA Railway Login page
         HomePage homePage = new HomePage();
@@ -42,10 +40,8 @@ public class ForgotPasswordTest {
         Assert.assertTrue(false, "Error page displays after clicking 'Send Instructions'.");
     }
 
-    @Test
+    @Test (description = "TC13 - Errors display if password and confirm password don't match")
     public void TC13() {
-
-        System.out.println("TC13 - Errors display if password and confirm password don't match");
 
         // Step 1. Navigate to QA Railway Login pag
         HomePage homePage = new HomePage();

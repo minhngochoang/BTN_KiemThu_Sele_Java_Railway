@@ -8,14 +8,11 @@ import PageObjects.MyTicketPage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 
 public class LoginTest
 {
@@ -27,10 +24,8 @@ public class LoginTest
         Constant.WEBDRIVER.manage().window().maximize();
     }
 
-    @Test
-    public void TC01()
-    {
-        System.out.println("TC01 - User can log into Railway with valid username and password");
+    @Test (description = "TC01 - User can log into Railway with valid username and password")
+    public void TC01() {
 
         // Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
@@ -49,11 +44,8 @@ public class LoginTest
         Assert.assertEquals(actualMsg, expectedMsg, "Welcome message is not displayed correctly!");
     }
 
-    @Test
-    public void TC02()
-    {
-        System.out.println("TC02 - User can't login with blank Username textbox");
-
+    @Test (description = "TC02 - User can't login with blank Username textbox")
+    public void TC02() {
         // Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
         homePage.open();
@@ -76,10 +68,8 @@ public class LoginTest
         Assert.assertEquals(actualMessage, expectedMessage, "Error message should be displayed");
     }
 
-    @Test
+    @Test (description = "TC03 - User cannot log into Railway with invalid password")
     public void TC03() {
-
-        System.out.println("TC03 - User cannot log into Railway with invalid password");
 
         //Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
@@ -92,7 +82,6 @@ public class LoginTest
         loginPage.getTxtUsername().sendKeys(Constant.USERNAME);
         loginPage.getTxtPassword().sendKeys("invalid_password");
 
-
         // Step 4. Click on "Login" button
         WebElement loginButton = loginPage.getBtnLogin();
         JavascriptExecutor js = (JavascriptExecutor) Constant.WEBDRIVER;
@@ -101,12 +90,12 @@ public class LoginTest
         // Verify
         String actualMessage =  loginPage.getLoginErrorMsg();
         String expectedMessage = "There was a problem with your login and/or errors exist in your form.";
+
         Assert.assertEquals(actualMessage, expectedMessage, "Error message should be displayed");
     }
 
-    @Test
+    @Test (description = "TC04 - Login page displays when un-logged User clicks on Book ticket tab")
     public void TC04() {
-        System.out.println("TC04 - Login page displays when un-logged User clicks on Book ticket tab");
 
         // Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
@@ -122,9 +111,8 @@ public class LoginTest
         Assert.assertEquals(actualTitle, expectedTitle, "Login page was not displayed correctly");
     }
 
-    @Test
+    @Test (description = "TC05 - System shows message when user enters wrong password several times")
     public void TC05() {
-        System.out.println("TC05 - System shows message when user enters wrong password several times");
 
         // Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
@@ -135,7 +123,7 @@ public class LoginTest
 
         // Step 3, 4, 5: Lặp lại chính xác 4 LẦN
         for (int i = 1; i <= 4; i++) {
-            System.out.println("Đang nhap sai lan: " + i);
+            System.out.println("Dang nhap sai lan thu: " + i);
 
             loginPage.attemptLogin(Constant.USERNAME, "wrongPassword");
         }
@@ -147,9 +135,8 @@ public class LoginTest
         Assert.assertEquals(actualMessage, expectedMessage, "Error message content is not correct after 4 attempts!");
     }
 
-    @Test
+    @Test (description = "TC06 - Additional pages display once user logged in")
     public void TC06() {
-        System.out.println("TC06 - Additional pages display once user logged in");
 
         // Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
@@ -177,7 +164,32 @@ public class LoginTest
         Assert.assertTrue(changePasswordPage.isPageTitleDisplayed(), "Change Password page did not load.");
     }
 
+    @Test(description = "TC08 - User can't login with an account hasn't been activated")
+    public void TC08() {
 
+        String unactivated_user = "wpotmaster@gmail.com";
+        String password = "1234@abc";
+
+        // Step 1. Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        // Step 2. Click on "Login" tab
+        LoginPage loginPage = homePage.gotoLoginPage();
+
+        // Step 3. Enter username and password of account hasn't been activated.
+        // Step 4. Click on "Login" button
+        loginPage.login(unactivated_user, password);
+
+        // Verify
+        String actualError = loginPage.getLoginErrorMsg(); // Tài khoản vẫn đăng nhập đượ
+        String expectedError = "Invalid username or password. Please try again.";
+
+        Assert.assertEquals(actualError, expectedError, "Lỗi: Thông báo hiển thị không khớp");
+
+    }
+
+    
     @AfterMethod
     public void afterMethod() {
         System.out.println("Post-condition");

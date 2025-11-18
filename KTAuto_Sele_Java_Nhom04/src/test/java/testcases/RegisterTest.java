@@ -4,7 +4,6 @@ import Common.Common.TestHelper;
 import Common.Constant.Constant;
 import PageObjects.HomePage;
 import PageObjects.RegisterPage;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -20,8 +19,36 @@ public class RegisterTest {
         Constant.WEBDRIVER.manage().window().maximize();
     }
 
-    @Test
+    @Test (description = "TC07 - User can create new account")
+    public void TC07() {
+
+        String EMAIL = TestHelper.generateUniqueEmail();
+        String PASSWORD = "password123";
+        String CONFIRM_PASSWORD = "password123";
+        String PID = "123456789";
+
+        // Step 1. Navigate to QA Railway Website
+        HomePage homePage = new HomePage();
+        homePage.open();
+
+        // Step 2. Click on "Register" tab
+        RegisterPage registerPage = homePage.gotoRegisterPage();
+
+        // Tep 3. Enter valid information into all fields
+        registerPage.register(EMAIL, PASSWORD, CONFIRM_PASSWORD, PID);
+
+        // Verify
+        String actualMsg = registerPage.getSuccessMessage();
+        String expectedMsg = "Thank you for registering your account";
+
+        // Xác minh thông báo thành công
+        Assert.assertEquals(actualMsg, expectedMsg, "Thông báo đăng ký thành công không khớp.");
+
+    }
+
+    @Test (description = "TC10 - User can create new account")
     public void TC10() {
+
         // Step 1. Navigate to QA Railway Website
         HomePage homePage = new HomePage();
         homePage.open();
@@ -35,6 +62,7 @@ public class RegisterTest {
         String confirmPassword = "1234@abc"; // Khong khop
         String pid = "123456789";
 
+        // Step 4. Click on "Register" button
         registerPage.register(email, password, confirmPassword, pid);
 
         // Verify
@@ -44,10 +72,8 @@ public class RegisterTest {
         Assert.assertEquals(actualErrorMsg, expectedErrorMsg, "Error message is not displayed correctly!");
     }
 
-    @Test
+    @Test (description = "TC11 - User can't create account while password and PID fields are empty")
     public void TC11() {
-
-        System.out.println("TC11 - User can't create account while password and PID fields are empty");
 
         String email = TestHelper.generateUniqueEmail();
         String emptyPassword = "";
@@ -61,6 +87,7 @@ public class RegisterTest {
         RegisterPage registerPage = homePage.gotoRegisterPage();
 
         // Step 3. Enter valid email address and leave other fields empty
+        // Step 4. Click on "Register" button
         registerPage.register(email, emptyPassword, emptyPassword, emptyPid);
 
         // Verify
