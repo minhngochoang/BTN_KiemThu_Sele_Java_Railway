@@ -9,7 +9,4 @@ public class HomePage extends GeneralPage{
         return this;
     }
 
-
-
-
 }

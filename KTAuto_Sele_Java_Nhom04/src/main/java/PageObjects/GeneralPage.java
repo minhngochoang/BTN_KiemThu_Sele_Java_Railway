@@ -76,7 +76,7 @@ public class GeneralPage {
     }
 
     //TC06
-    // Boolean
+
     private boolean isTabDisplayed(By locator) {
         try {
             return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
@@ -111,5 +111,12 @@ public class GeneralPage {
         getTabRegister().click();
         return new RegisterPage();
     }
+
+    // TC14
+    public BookTicketPage gotoBookTicketPage() {
+        getTabBookTicket().click();
+        return new BookTicketPage();
+    }
+
 
 }
