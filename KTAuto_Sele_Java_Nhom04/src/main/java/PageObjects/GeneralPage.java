@@ -16,10 +16,11 @@ public class GeneralPage {
     private final By tabLogout = By.xpath("//div[@id='menu']//a[@href='/Account/Logout']");
     private final By lblWelcomeUser= By.xpath("//div[@class='account']");
 
-    private final By tabBookTicket = By.xpath("//div[@id='menu']//a[contains(@href, 'BookTicket')]");
     private final By lblPageHeader = By.xpath("//div[@id='content']/h1"); //Tiêu đề trang Login
 
+    private final By tabBookTicket = By.xpath("//div[@id='menu']//a[contains(@href, 'BookTicket')]");
     private final By tabMyTicket = By.xpath("//div[@id='menu']//a[contains(@href, '/ManageTicket')]");
+
     private final By tabChangePassword = By.xpath("//div[@id='menu']//a[contains(@href, '/ChangePassword')]");
 
     private final By tabRegister = By.xpath("//div[@id='menu']//a[contains(@href, '/Account/Register')]");
@@ -50,6 +51,7 @@ public class GeneralPage {
     protected WebElement getTabChangePassword() {
         return wait.until(ExpectedConditions.elementToBeClickable(tabChangePassword));
     }
+
     // TC10
     protected WebElement getTabRegister() {
         return wait.until(ExpectedConditions.elementToBeClickable(tabRegister));
@@ -80,7 +82,6 @@ public class GeneralPage {
     }
 
     //TC06
-
     private boolean isTabDisplayed(By locator) {
         try {
             return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();

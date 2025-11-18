@@ -1,6 +1,5 @@
 package PageObjects;
 
-import Common.Common.DateUtils;
 import Common.Constant.Constant;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -16,16 +15,16 @@ public class BookTicketPage extends GeneralPage{
     private WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(10));
 
     // Locators
-    private final By ddlDepartDate = By.xpath("//select[@name='Date']");
+    /*private final By ddlDepartDate = By.xpath("//select[@name='Date']");
     private final By ddlDepartFrom = By.xpath("//select[@name='DepartStation']");
     private final By ddlArriveAt = By.xpath("//select[@name='ArriveStation']");
     private final By ddlSeatType = By.xpath("//select[@name='SeatType']");
     private final By ddlTicketAmount = By.xpath("//select[@name='TicketAmount']");
-
+*/
     private final By btnBookTicket = By.xpath("//input[@type='submit' and @value='Book ticket']");
     private final By lblSuccessHeader = By.xpath("//div[@id='content']/h1");
 
-    private final By tabTimetable  = By.xpath("//div[@id='menu']//span[text()='Timetable']");
+    //private final By tabTimetable  = By.xpath("//div[@id='menu']//span[text()='Timetable']");
 
     //Methods
     // TC14

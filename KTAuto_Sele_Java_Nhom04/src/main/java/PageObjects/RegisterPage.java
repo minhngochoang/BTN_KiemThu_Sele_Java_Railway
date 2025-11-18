@@ -70,7 +70,6 @@ public class RegisterPage extends GeneralPage{
     public String getPasswordErrorText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(lblPasswordError)).getText();
     }
-
     public String getPidErrorText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(lblPidError)).getText();
     }
